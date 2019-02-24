@@ -2,12 +2,13 @@ import random
 
 
 class Player:
-    def __init__(self, name, position, team):
+    def __init__(self, name, position, team, ability):
         self.position = position
         self.name = name
         self.team = team
         self.touches = 0
         self.misses = 0
+        self.ability = ability
 
     def update(self, game_world):
         if not game_world.the_ball.current_state_served:
@@ -21,7 +22,7 @@ class Player:
             # is the ball in my area
             if game_world.get_current_ball_position() == self.position:
                 # Its with me so check if I can return it
-                return_attempt = random.randint(1, 10)
+                return_attempt = random.randint(1, self.ability["defense"])
                 if return_attempt > 2:
                     self.touches = self.touches + 1
                     if self.team == "away":

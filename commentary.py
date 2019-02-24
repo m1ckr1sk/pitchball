@@ -77,8 +77,8 @@ class Commentary:
             if len(player.name) >= 16:
                 tabs = "\t"
 
-            print("{}{}| {}\t\t | {}\t\t|".format(
-                player.name, tabs, player.touches, player.misses))
+            print("{}({}){}| {}\t\t | {}\t\t|".format(
+                player.name, player.ability["defense"], tabs, player.touches, player.misses))
 
         print("{} team stats:".format(game_world.teams["away"].name))
         print("Name\t\t\t| Touches\t | Mistakes\t|")
@@ -87,5 +87,5 @@ class Commentary:
             if len(player.name) >= 16:
                 tabs = "\t"
 
-            print("{}{}| {}\t\t | {}\t\t|".format(
-                player.name, tabs, player.touches, player.misses))
+            print("{}({}){}| {}\t\t | {}\t\t|".format(
+                player.name, player.ability["defense"], tabs, player.touches, player.misses))

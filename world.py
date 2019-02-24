@@ -39,11 +39,11 @@ class World:
     def generate_teams(self, home_team_name, away_team_name):
         for my_player_index in range(7, 13):
             self.teams["home"].players.append(
-                Player(names.get_full_name(), my_player_index, "home"))
+                Player(names.get_full_name(), my_player_index, "home", {"defense" : random.randint(1,10)}))
 
         for opp_player_index in range(1, 7):
             self.teams["away"].players.append(
-                Player(names.get_full_name(), opp_player_index, "away"))
+                Player(names.get_full_name(), opp_player_index, "away", {"defense" : random.randint(1,10)}))
 
         self.teams["home"].name = home_team_name
         self.teams["away"].name = away_team_name
