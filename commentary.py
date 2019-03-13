@@ -71,21 +71,20 @@ class Commentary:
 
     def statistics(self, game_world):
         print("{} team stats:".format(game_world.teams["home"].name))
-        print("Name\t\t\t| Touches\t | Mistakes\t|")
-        for player in game_world.teams["home"].players:
-            tabs = "\t\t"
-            if len(player.name) >= 16:
-                tabs = "\t"
-
-            print("{}({}){}| {}\t\t | {}\t\t|".format(
-                player.name, player.ability["defense"], tabs, player.touches, player.misses))
+        self.print_team_stats(game_world.teams["home"].players)
 
         print("{} team stats:".format(game_world.teams["away"].name))
-        print("Name\t\t\t| Touches\t | Mistakes\t|")
-        for player in game_world.teams["away"].players:
-            tabs = "\t\t"
-            if len(player.name) >= 16:
-                tabs = "\t"
+        self.print_team_stats(game_world.teams["away"].players)
 
-            print("{}({}){}| {}\t\t | {}\t\t|".format(
-                player.name, player.ability["defense"], tabs, player.touches, player.misses))
+    def print_team_stats(self, players):
+        self.print_stats_header()
+        for player in players:
+            print("{}({})".format(player.name, player.ability["defense"]).ljust(30), end='')
+            print("| {}".format(player.touches).ljust(20), end='')
+            print("| {}".format(player.misses).ljust(20), end='')
+            print("|")
+
+    def print_stats_header(self):
+        print("Name".ljust(30), end='')
+        print("| Touches".ljust(20), end='')
+        print("| Mistakes".ljust(20) + "|")

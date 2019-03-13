@@ -4,7 +4,7 @@ from world import World
 from commentary import Commentary
 
 
-HOME_TEAM_NAME = input('name your team: ')
+HOME_TEAM_NAME = 'mki'#input('name your team: ')
 OPP_TEAM_NAMES = ['splinter prosthetics slayers', 'catterick carnage',
                   'p. c. madrid (progreso)', 'mapbit brothers industries']
 AWAY_TEAM_NAME = random.choice(OPP_TEAM_NAMES)
@@ -21,7 +21,7 @@ def match_start():
     print("ref blows the whistle and we're under way!")
     GAME_WORLD.choose_team_to_serve()
 
-    while match_time < 20 or GAME_WORLD.the_ball.new_state_served:
+    while match_time < 50 or GAME_WORLD.the_ball.new_state_served:
         
         GAME_WORLD.update()
 
@@ -29,7 +29,7 @@ def match_start():
 
         GAME_WORLD.swap_buffers()
 
-        time.sleep(2)
+        time.sleep(0.5)
         match_time += 1
         print("Match Time: {} {}".format(match_time,
                                          GAME_WORLD.the_ball.new_state_served))
