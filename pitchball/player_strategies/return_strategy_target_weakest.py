@@ -1,8 +1,15 @@
 import random
+from .player_strategy import PlayerStrategy
 
-class TargetWeakestReturnStrategy:
+class TargetWeakestReturnStrategy(PlayerStrategy):
     def __init__(self):
         self.return_attempt = {}
+
+    def __repr__(self):
+        return "<TargetWeakestReturnStrategy return_attempt={}>".format(self.return_attempt)
+
+    def __str__(self):
+        return "TargetWeakestReturnStrategy {}".format(self.return_attempt)
 
     def attempt_return(self, game_world, player):
         

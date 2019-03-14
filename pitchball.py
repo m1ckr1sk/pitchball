@@ -1,7 +1,6 @@
 import random
 import time
-from world import World
-from commentary import Commentary
+from pitchball import World, Commentary
 
 
 HOME_TEAM_NAME = 'mki'#input('name your team: ')

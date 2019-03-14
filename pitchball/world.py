@@ -1,10 +1,10 @@
 import random
 import names
-from ball import Ball
-from team import Team
-from player import Player
-from player_strategies.return_strategy_random import RandomReturnStrategy
-from player_strategies.return_strategy_target_weakest import TargetWeakestReturnStrategy
+from .ball import Ball
+from .team import Team
+from .player import Player
+from .player_strategies.return_strategy_random import RandomReturnStrategy
+from .player_strategies.return_strategy_target_weakest import TargetWeakestReturnStrategy
 
 
 class World:
