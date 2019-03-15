@@ -1,12 +1,14 @@
 class Ball:
     def  __init__(self):
         self._current_position = -1
+        self._previous_position = -1
         self._new_position = -1
         self._owned_by  = None
         self._current_state_served = False
         self._new_state_served = False
 
     def swap_buffers(self):
+        self._previous_position = self._current_position
         self._current_position = self._new_position
         self._current_state_served = self._new_state_served
 
@@ -20,6 +22,10 @@ class Ball:
             raise TypeError("current position must be an integer value")
 
         self._current_position = position
+
+    @property
+    def previous_position(self):
+        return self._previous_position
 
     @property
     def new_position(self):

@@ -13,11 +13,12 @@ class RandomReturnStrategy(PlayerStrategy):
 
     def attempt_return(self, game_world, player):
         
+        attacker = game_world.get_player_at_position(game_world.get_previous_ball_position())
         pass_or_return = random.randint(0,1)
         home = list(range(7, 13))
         away = list(range(1, 7))
         if pass_or_return == 0:
-            self.return_attempt["success_rating"] =  random.randint(1, 2 + player.ability["defense"])
+            self.return_attempt["success_rating"] = super().return_success(player, attacker)
             if player.team == "away":
                 self.return_attempt["return_position"] = random.choice(home)
             else:

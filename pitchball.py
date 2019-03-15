@@ -17,7 +17,7 @@ COMMENTARY.intro(GAME_WORLD)
 def match_start():
 
     match_time = 0
-    print("ref blows the whistle and we're under way!")
+    COMMENTARY.start(GAME_WORLD)
     GAME_WORLD.choose_team_to_serve()
 
     while match_time < 50 or GAME_WORLD.the_ball.new_state_served:

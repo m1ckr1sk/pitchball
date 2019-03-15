@@ -17,6 +17,9 @@ class Commentary:
             "\n".join(team.name for team in game_world.teams["home"].players))
         print('  This is your final team.  May you achieve victory and glory with them!')
 
+    def start(self, game_world):
+        print("ref blows the whistle and we're under way!")
+
     def update(self, game_world):
         if not game_world.the_ball.current_state_served:
             self.print_service(game_world)
@@ -127,12 +130,12 @@ class Commentary:
         self.print_stats_header()
         for player in players:
             print("{}({})".format(player.name,
-                                  player.ability["defense"]).ljust(30), end='')
-            print("| {}".format(player.touches).ljust(20), end='')
-            print("| {}".format(player.misses).ljust(20), end='')
+                                  player.ability).ljust(90), end='')
+            print("| {}".format(player.touches).ljust(10), end='')
+            print("| {}".format(player.misses).ljust(10), end='')
             print("|")
 
     def print_stats_header(self):
-        print("Name".ljust(30), end='')
-        print("| Touches".ljust(20), end='')
-        print("| Mistakes".ljust(20) + "|")
+        print("Name".ljust(90), end='')
+        print("| Touches".ljust(10), end='')
+        print("| Mistakes".ljust(10) + "|")

@@ -49,49 +49,77 @@ class World:
         self.teams["home"].name = home_team_name
         self.teams["away"].name = away_team_name
 
-    def generate_team_ability(self, total, number_of_players):
-        team_abilities = []
-        for player_index in range(0,number_of_players):
-            team_abilities.append(1)
-
-        running_total = total - number_of_players
-        while running_total > 0:
-            player_index = random.randint(0,number_of_players-1)
-            if team_abilities[player_index] < 10:
-                team_abilities[player_index] = team_abilities[player_index] + 1
-            running_total = running_total - 1
+    def generate_team_abilities(self, totals, number_of_players):
+        team_abilities = {}
+        team_abilities["defend"] = self.generate_team_ability(number_of_players, totals[0])
+        team_abilities["attack"] = self.generate_team_ability(number_of_players, totals[1])
+        team_abilities["passing"] = self.generate_team_ability(number_of_players, totals[2])
+        team_abilities["form"] = self.generate_team_ability(number_of_players, totals[2])
+        team_abilities["fitness"] = self.generate_team_ability(number_of_players, totals[2])
+        self.print_team_ability(team_abilities, "defend")
             
-        for ability in team_abilities:
-            print("Ability {}".format(ability))
 
         return team_abilities
 
+    def print_team_ability(self, team_abilities, ability_name):
+        for ability in team_abilities[ability_name] :
+            print("{} {}".format(ability_name, ability))
+
+    def generate_team_ability(self, number_of_players, total):
+        abilities = []
+
+        # give at least one point to the ability
+        for player_index in range(0,number_of_players):
+            abilities.append(1)
+
+        # randomly distribute the remaining points across the players
+        running_total = total - number_of_players
+        while running_total > 0:
+            player_index = random.randint(0,number_of_players-1)
+            if abilities[player_index] < 10:
+                abilities[player_index] = abilities[player_index] + 1
+            running_total = running_total - 1
+
+        return abilities
+
+    def get_player_ability(self, player_index, team_abilities):
+        player_ability = {}
+        player_ability["defend"] = team_abilities["defend"][player_index]
+        player_ability["attack"] = team_abilities["attack"][player_index]
+        player_ability["passing"] = team_abilities["passing"][player_index]
+        player_ability["form"] = team_abilities["form"][player_index]
+        player_ability["fitness"] = team_abilities["fitness"][player_index]
+        return player_ability
+
 
     def generate_home_team(self):
-        team_ability = self.generate_team_ability( 25, 6)
+        team_ability = self.generate_team_abilities((25, 25, 25, 25, 25), 6)
+        
         for my_player_index in range(7, 13):
             self.teams["home"].players.append(
                 self.generate_player(
-                    my_player_index, "home", team_ability[my_player_index - 7], self.target_weakest_strategy))
+                    my_player_index, 
+                    "home", 
+                    self.get_player_ability(my_player_index - 7, team_ability),
+                    self.target_weakest_strategy))
 
     def generate_player(self, my_player_index, team, ability, strategy):
         return Player(
             names.get_full_name(),
             my_player_index,
             team,
-            {"defense": ability,
-            "attack": 5,
-            "passing":5,
-            "form":5,
-            "fitness": 5},
+            ability,
             strategy)
 
     def generate_away_team(self):
-        team_ability = self.generate_team_ability( 25, 6)
+        team_ability = self.generate_team_abilities((25, 25, 25, 25, 25), 6)
         for opp_player_index in range(1, 7):
             self.teams["away"].players.append(
                 self.generate_player(
-                    opp_player_index, "away", team_ability[opp_player_index - 1] ,self.random_strategy))
+                    opp_player_index, 
+                    "away", 
+                    self.get_player_ability(opp_player_index - 1, team_ability),
+                    self.random_strategy))
 
     def choose_team_to_serve(self):
         if random.randint(0, 1) == 0:
@@ -100,6 +128,9 @@ class World:
         else:
             self.set_current_ball_position(random.choice(
                 self.teams["away"].players).position)
+
+    def get_previous_ball_position(self):
+        return self.the_ball.previous_position
 
     def get_current_ball_position(self):
         return self.the_ball.current_position
