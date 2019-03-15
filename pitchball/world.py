@@ -34,7 +34,7 @@ class World:
 
         self.target_strategy = PlayerStrategyRandom(
                                 pass_targeted, 
-                                return_random)
+                                return_targeted)
 
     def update(self):
         for player in self.teams["home"].players:
