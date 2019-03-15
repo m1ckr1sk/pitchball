@@ -1,35 +1,19 @@
 import random
-from .player_strategy import PlayerStrategy
+from .return_strategy import ReturnStrategy
 
-class RandomReturnStrategy(PlayerStrategy):
-    def __init__(self):
-        self.return_attempt = {}
+class RandomReturnStrategy(ReturnStrategy):
+    def update_return_strategy(self, game_world, player):
 
-    def __repr__(self):
-        return "<RandomReturnStrategy return_attempt={}>".format(self.return_attempt)
-
-    def __str__(self):
-        return "RandomReturnStrategy {}".format(self.return_attempt)
-
-    def attempt_return(self, game_world, player):
+        return_attempt = {}
+        from_player = game_world.get_player_at_position(game_world.get_previous_ball_position())
         
-        attacker = game_world.get_player_at_position(game_world.get_previous_ball_position())
-        pass_or_return = random.randint(0,1)
         home = list(range(7, 13))
         away = list(range(1, 7))
-        if pass_or_return == 0:
-            self.return_attempt["success_rating"] = super().return_success(player, attacker)
-            if player.team == "away":
-                self.return_attempt["return_position"] = random.choice(home)
-            else:
-                self.return_attempt["return_position"] = random.choice(away)
-        else:
-            self.return_attempt["success_rating"] =  random.randint(1, 2 + player.ability["passing"])
-            if player.team == "away":
-                away.remove(player.position)
-                self.return_attempt["return_position"] = random.choice(away)
-            else:
-                home.remove(player.position)
-                self.return_attempt["return_position"] = random.choice(home)
 
-        return self.return_attempt
+        return_attempt["success_rating"] = super().return_success(player, from_player)
+        if player.team == "away":
+            return_attempt["return_position"] = random.choice(home)
+        else:
+            return_attempt["return_position"] = random.choice(away)
+
+        return return_attempt

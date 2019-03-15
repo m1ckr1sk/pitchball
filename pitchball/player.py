@@ -1,54 +1,30 @@
 import random
 from .player_strategies.player_strategy import PlayerStrategy
-
+from .property_closures import typedproperty, roproperty
 
 class Player:
-    def __init__(self, name, position, team, ability, return_strategy):
+    
+    position = roproperty("position")
+    name = roproperty("name")
+    team = roproperty("team")
+    touches = roproperty("touches")
+    misses = roproperty("misses")
+    ability = roproperty("ability")
+    strategy = typedproperty("strategy", PlayerStrategy)
+    
+
+    def __init__(self, name, position, team, ability, strategy):
         self._position = position
         self._name = name
         self._team = team
         self._touches = 0
         self._misses = 0
         self._ability = ability
-        self._return_strategy = return_strategy
-
-    @property
-    def position(self):
-        return self._position
-
-    @property
-    def name(self):
-        return self._name
+        self._strategy = strategy
 
     @property
     def surname(self):
         return self.name.split(" ")[1]
-
-    @property
-    def team(self):
-        return self._team
-
-    @property
-    def touches(self):
-        return self._touches
-
-    @property
-    def misses(self):
-        return self._misses
-
-    @property
-    def ability(self):
-        return self._ability
-
-    @property
-    def return_strategy(self):
-        return self._return_strategy
-
-    @return_strategy.setter
-    def return_strategy(self, return_strategy):
-        if issubclass(return_strategy, PlayerStrategy):
-            raise TypeError("player strategy must inherit from PlayerStrategy")
-        self._return_strategy = return_strategy
 
     def update(self, game_world):
         if not game_world.the_ball.current_state_served:
@@ -62,7 +38,7 @@ class Player:
             # is the ball in my area
             if game_world.get_current_ball_position() == self.position:
                 # Its with me so check if I can return it
-                return_attempt = self.return_strategy.attempt_return(
+                return_attempt = self._strategy.update_player_strategy(
                     game_world, self)
 
                 if return_attempt["success_rating"] > 2:

@@ -1,0 +1,5 @@
+from .player_strategy_random import PlayerStrategyRandom
+from .pass_strategy_random import RandomPassStrategy
+from .return_strategy_random import RandomReturnStrategy
+from .pass_strategy_target_strongest import TargetStrongestPassStrategy
+from .return_strategy_target_weakest import TargetWeakestReturnStrategy

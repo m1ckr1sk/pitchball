@@ -3,8 +3,11 @@ import names
 from .ball import Ball
 from .team import Team
 from .player import Player
-from .player_strategies.return_strategy_random import RandomReturnStrategy
-from .player_strategies.return_strategy_target_weakest import TargetWeakestReturnStrategy
+from .player_strategies import RandomReturnStrategy
+from .player_strategies import RandomPassStrategy
+from .player_strategies import TargetStrongestPassStrategy
+from .player_strategies import TargetWeakestReturnStrategy
+from .player_strategies import PlayerStrategyRandom
 
 
 class World:
@@ -19,8 +22,19 @@ class World:
         self.home_score = 0
         self.away_score = 0
 
-        self.random_strategy = RandomReturnStrategy()
-        self.target_weakest_strategy = TargetWeakestReturnStrategy()
+        return_random = RandomReturnStrategy()
+        pass_random = RandomPassStrategy()
+        pass_targeted = TargetStrongestPassStrategy()
+        return_targeted = TargetWeakestReturnStrategy()
+        
+
+        self.random_strategy = PlayerStrategyRandom(
+                                pass_random, 
+                                return_random)
+
+        self.target_strategy = PlayerStrategyRandom(
+                                pass_targeted, 
+                                return_random)
 
     def update(self):
         for player in self.teams["home"].players:
@@ -101,7 +115,7 @@ class World:
                     my_player_index, 
                     "home", 
                     self.get_player_ability(my_player_index - 7, team_ability),
-                    self.target_weakest_strategy))
+                    self.target_strategy))
 
     def generate_player(self, my_player_index, team, ability, strategy):
         return Player(
