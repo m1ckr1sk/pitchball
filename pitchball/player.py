@@ -40,6 +40,7 @@ class Player:
                 # Its with me so check if I can return it
                 return_attempt = self._strategy.update_player_strategy(
                     game_world, self)
+                print(f'success: {return_attempt["success_rating"]}')
 
                 if return_attempt["success_rating"] > 2:
                     self._touches = self._touches + 1

@@ -1,17 +1,38 @@
 import random
 
+
 class PassStrategy():
 
     def update_pass_strategy(self, game_world, player):
         return
 
     def pass_success(self, to_player, from_player):
-        success = 2
+
+        min_base_chance = 1
+        max_base_chance = 1
         if to_player.team == from_player.team:
-            success += to_player.ability["passing"] + \
-                from_player.ability["passing"] // 2
+            # ball from team to return
+            to_boosted = to_player.ability["passing"] + \
+                to_player.ability["form"] + \
+                to_player.ability["fitness"]
+            from_boosted = from_player.ability["passing"] + \
+                from_player.ability["form"] + \
+                from_player.ability["fitness"]
+
+            max_base_chance = to_player.ability["passing"] + \
+                to_boosted + \
+                from_boosted // 2
         else:
-            success += max(to_player.ability["defend"] - \
-                from_player.ability["attack"] // 2, 0)
-            
-        return random.randint(1, success)
+            to_boosted = to_player.ability["passing"] + \
+                to_player.ability["form"] + \
+                to_player.ability["fitness"]
+            from_boosted = from_player.ability["attack"] + \
+                from_player.ability["form"] + \
+                from_player.ability["fitness"]
+
+            max_base_chance = to_player.ability["passing"] + \
+                max((to_boosted -
+                     from_boosted // 2), 0)
+
+        print(f'pass : from {min_base_chance} to {max_base_chance}')
+        return random.randint(min_base_chance, max_base_chance)
