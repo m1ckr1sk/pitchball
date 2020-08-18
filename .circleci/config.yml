@@ -9,10 +9,10 @@ jobs:
     steps:
       - checkout
       - python/load-cache
-      - python/install-deps:
-          dependency-file: requirements.txt
-      - python/install-deps:
-          dependency-file: requirements_test.txt
+      - python/install-deps
+      - run:
+          command: pip install requirements_test.txt
+          name: Install Test Deps
       - python/save-cache
       - run:
           command: pytest
